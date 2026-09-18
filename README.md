@@ -107,3 +107,58 @@ Apps Scriptと設定手順を用意しています。詳しくは `automation/RE
 1. GitHub のリポジトリ設定 → **Settings → Pages** を開く。
 2. **Source** を `GitHub Actions` に設定する。
 3. `main` ブランチに push すると `.github/workflows/pages.yml` が自動でデプロイする。
+
+## 図書室 蔵書検索・貸出状況サイト（`library/`）
+
+院内図書室の本を一覧・検索でき、貸出日と借りた人がわかるサイトを `library/` 以下に
+同居させています。トップページ右上の「図書室 📚」から移動できます
+（公開後の URL は `<PagesのURL>/library/`）。
+
+### サイトの機能
+
+- 書名・著者・出版社・カテゴリでのキーワード検索（スペース区切りでAND検索）
+- カテゴリ（大分類）・貸出状況（在架のみ／貸出中のみ）での絞り込み
+- 本ごとの詳細画面で、現在の貸出状況（借りた人・貸出日・返却予定日）と
+  過去の貸出履歴（借りた人・貸出日・返却日の一覧）を表示
+- No.順 / 書名順 / 貸出日が新しい順の並び替え
+
+### ディレクトリ構成
+
+```
+library/index.html        図書室サイト本体
+library/assets/style.css  スタイル
+library/assets/app.js     検索・フィルタ・詳細表示のロジック
+library/data/books.json   表示用データ（本の情報・貸出状況・貸出履歴）
+```
+
+### 本を追加する・貸出/返却を記録する方法
+
+`library/data/books.json` を直接編集します。各本は以下の項目を持つJSON配列です。
+
+```json
+{
+  "no": 1,
+  "id": "book-001",
+  "title": "書名",
+  "author": "著者名",
+  "publisher": "出版社名",
+  "isbn": "978-4-xxxx-xxxx-x",
+  "category": "健康・医療",
+  "location": "待合室 本棚A",
+  "currentLoan": null,
+  "loanHistory": []
+}
+```
+
+- 貸出中にする場合は `currentLoan` を
+  `{ "borrower": "借りた人の名前", "loanDate": "2026/09/18", "dueDate": "2026/10/02" }`
+  のように設定する（`dueDate` は任意）。
+- 返却されたら `currentLoan` を `null` に戻し、`loanHistory` に
+  `{ "borrower": "借りた人の名前", "loanDate": "貸出日", "returnDate": "返却日" }`
+  を追加する。
+- カテゴリの一覧・表示順は `library/assets/app.js` 先頭の `CATEGORY_ORDER` で
+  変更できる（実際の書架のカテゴリに合わせて自由に編集してください）。
+
+GitHubの操作に慣れていない場合は、保険算定ルールノートと同様に、Claude（Claude Code）の
+チャットで「この本を追加して」「〇〇さんに△△を貸し出して」「△△が返却された」などと
+伝えてもらえれば、代わりにサイトへの反映・公開まで対応できます。

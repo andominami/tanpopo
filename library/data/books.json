@@ -1,0 +1,148 @@
+[
+  {
+    "no": 1,
+    "id": "book-001",
+    "title": "がんと診断されたら最初に読む本",
+    "author": "山田 一郎",
+    "publisher": "健康出版社",
+    "isbn": "978-4-0000-0001-1",
+    "category": "健康・医療",
+    "location": "待合室 本棚A",
+    "currentLoan": null,
+    "loanHistory": [
+      { "borrower": "佐藤 花子", "loanDate": "2026/06/02", "returnDate": "2026/06/16" }
+    ]
+  },
+  {
+    "no": 2,
+    "id": "book-002",
+    "title": "糖尿病とうまく付き合う食事のコツ",
+    "author": "鈴木 栄子",
+    "publisher": "みのり書房",
+    "isbn": "978-4-0000-0002-2",
+    "category": "健康・医療",
+    "location": "待合室 本棚A",
+    "currentLoan": {
+      "borrower": "田中 太郎",
+      "loanDate": "2026/09/10",
+      "dueDate": "2026/09/24"
+    },
+    "loanHistory": [
+      { "borrower": "高橋 実", "loanDate": "2026/05/11", "returnDate": "2026/05/25" }
+    ]
+  },
+  {
+    "no": 3,
+    "id": "book-003",
+    "title": "リハビリ日記 ―半年間の記録―",
+    "author": "小林 まさみ",
+    "publisher": "つばさ文庫",
+    "isbn": "978-4-0000-0003-3",
+    "category": "闘病記・体験談",
+    "location": "2階 談話室 本棚B",
+    "currentLoan": null,
+    "loanHistory": []
+  },
+  {
+    "no": 4,
+    "id": "book-004",
+    "title": "こころが軽くなる心療内科の話",
+    "author": "中村 優子",
+    "publisher": "あおぞら出版",
+    "isbn": "978-4-0000-0004-4",
+    "category": "健康・医療",
+    "location": "待合室 本棚A",
+    "currentLoan": {
+      "borrower": "渡辺 久美",
+      "loanDate": "2026/09/15",
+      "dueDate": "2026/09/29"
+    },
+    "loanHistory": []
+  },
+  {
+    "no": 5,
+    "id": "book-005",
+    "title": "おおきな木",
+    "author": "シェル・シルヴァスタイン",
+    "publisher": "そよかぜ書店",
+    "isbn": "978-4-0000-0005-5",
+    "category": "絵本・児童書",
+    "location": "小児科待合 本棚C",
+    "currentLoan": null,
+    "loanHistory": [
+      { "borrower": "小児科 待合", "loanDate": "2026/03/01", "returnDate": "2026/03/08" }
+    ]
+  },
+  {
+    "no": 6,
+    "id": "book-006",
+    "title": "家族が支える終末期ケア",
+    "author": "伊藤 誠",
+    "publisher": "ひだまり書房",
+    "isbn": "978-4-0000-0006-6",
+    "category": "闘病記・体験談",
+    "location": "2階 談話室 本棚B",
+    "currentLoan": {
+      "borrower": "松本 良子",
+      "loanDate": "2026/09/05",
+      "dueDate": "2026/09/19"
+    },
+    "loanHistory": [
+      { "borrower": "木村 陽子", "loanDate": "2026/07/01", "returnDate": "2026/07/14" }
+    ]
+  },
+  {
+    "no": 7,
+    "id": "book-007",
+    "title": "月刊けんこう 2026年9月号",
+    "author": "編集部",
+    "publisher": "けんこう社",
+    "isbn": "978-4-0000-0007-7",
+    "category": "雑誌",
+    "location": "待合室 マガジンラック",
+    "currentLoan": null,
+    "loanHistory": []
+  },
+  {
+    "no": 8,
+    "id": "book-008",
+    "title": "笑うと免疫が上がる",
+    "author": "岡田 恵",
+    "publisher": "こもれび出版",
+    "isbn": "978-4-0000-0008-8",
+    "category": "小説・エッセイ",
+    "location": "待合室 本棚A",
+    "currentLoan": null,
+    "loanHistory": []
+  },
+  {
+    "no": 9,
+    "id": "book-009",
+    "title": "入院生活まるわかりガイド",
+    "author": "医療情報編集室",
+    "publisher": "白ゆり出版",
+    "isbn": "978-4-0000-0009-9",
+    "category": "健康・医療",
+    "location": "病棟 談話室",
+    "currentLoan": {
+      "borrower": "斎藤 修",
+      "loanDate": "2026/09/16",
+      "dueDate": "2026/09/30"
+    },
+    "loanHistory": []
+  },
+  {
+    "no": 10,
+    "id": "book-010",
+    "title": "季節の花あわせ",
+    "author": "石川 由紀",
+    "publisher": "花暦社",
+    "isbn": "978-4-0000-0010-5",
+    "category": "小説・エッセイ",
+    "location": "2階 談話室 本棚B",
+    "currentLoan": null,
+    "loanHistory": [
+      { "borrower": "山本 智子", "loanDate": "2026/08/01", "returnDate": "2026/08/15" }
+    ]
+  }
+]
