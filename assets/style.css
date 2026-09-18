@@ -341,6 +341,26 @@ button {
   font-size: 0.9rem;
 }
 
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.favorites-toggle {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.favorites-toggle input {
+  cursor: pointer;
+}
+
 .sort-label {
   font-size: 0.85rem;
   color: var(--color-text-muted);
@@ -367,6 +387,7 @@ button {
 }
 
 .rule-card {
+  position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -385,9 +406,39 @@ button {
   text-align: left;
   background: none;
   border: none;
-  padding: 16px 18px;
+  padding: 16px 44px 16px 18px;
   color: inherit;
   display: block;
+}
+
+.rule-star {
+  background: none;
+  border: none;
+  padding: 4px;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--color-border);
+  cursor: pointer;
+}
+
+.rule-star:hover {
+  color: var(--color-yellow-dark);
+}
+
+.rule-star.active {
+  color: var(--color-yellow-dark);
+}
+
+.rule-card > .rule-star {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.rule-meta .rule-star {
+  font-size: 1.05rem;
+  margin-left: auto;
 }
 
 .rule-card-btn:hover .rule-title,

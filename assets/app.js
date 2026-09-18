@@ -26,12 +26,17 @@
     "その他",
   ];
 
+  // お気に入りはこの端末のブラウザだけに保存される(スタッフ間・他端末では共有されない)。
+  const FAVORITES_KEY = "tanpopo-favorites";
+
   const state = {
     rules: [],
     query: "",
     activeGroup: "all",
     sort: "date-desc",
     view: "current", // "current" | "archived"
+    favorites: loadFavorites(),
+    favoritesOnly: false,
   };
 
   const els = {
@@ -42,6 +47,7 @@
     resultCount: document.getElementById("result-count"),
     emptyState: document.getElementById("empty-state"),
     sortSelect: document.getElementById("sort-select"),
+    favoritesOnlyCheckbox: document.getElementById("favorites-only-checkbox"),
     overlay: document.getElementById("detail-overlay"),
     detailBody: document.getElementById("detail-body"),
     detailClose: document.getElementById("detail-close"),
@@ -108,6 +114,41 @@
     return terms.every((term) => haystack.includes(term));
   }
 
+  function loadFavorites() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+      return new Set(Array.isArray(raw) ? raw : []);
+    } catch (err) {
+      return new Set();
+    }
+  }
+
+  function saveFavorites() {
+    try {
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(state.favorites)));
+    } catch (err) {
+      // プライベートブラウズ等でlocalStorageが使えない場合は静かに諦める
+    }
+  }
+
+  function toggleFavorite(id) {
+    if (state.favorites.has(id)) {
+      state.favorites.delete(id);
+    } else {
+      state.favorites.add(id);
+    }
+    saveFavorites();
+  }
+
+  function favoriteButtonHtml(rule) {
+    const active = state.favorites.has(rule.id);
+    return `<button type="button" class="rule-star ${active ? "active" : ""}" data-fav-id="${escapeHtml(
+      rule.id
+    )}" aria-pressed="${active}" aria-label="お気に入りに${active ? "登録済み。解除する" : "追加する"}">${
+      active ? "★" : "☆"
+    }</button>`;
+  }
+
   function computeGroups(rules) {
     const counts = new Map();
     rules.forEach((r) => counts.set(r.group, (counts.get(r.group) || 0) + 1));
@@ -150,7 +191,8 @@
     const terms = getTerms();
     let list = viewRules().filter((r) => {
       const groupOk = state.activeGroup === "all" || r.group === state.activeGroup;
-      return groupOk && matchesQuery(r, terms);
+      const favOk = !state.favoritesOnly || state.favorites.has(r.id);
+      return groupOk && favOk && matchesQuery(r, terms);
     });
 
     list = list.slice().sort((a, b) => {
@@ -187,10 +229,13 @@
 
     els.emptyState.hidden = list.length !== 0;
     els.ruleList.hidden = list.length === 0;
-    els.emptyState.textContent =
-      state.view === "archived" && !state.query.trim()
-        ? "アーカイブされたルールはまだありません。"
-        : "該当するルールが見つかりませんでした。別のキーワードで検索してください。";
+    els.emptyState.textContent = state.query.trim()
+      ? "該当するルールが見つかりませんでした。別のキーワードで検索してください。"
+      : state.favoritesOnly
+      ? "お気に入りに登録したルールはまだありません。ルール一覧の☆をタップすると登録できます。"
+      : state.view === "archived"
+      ? "アーカイブされたルールはまだありません。"
+      : "該当するルールが見つかりませんでした。別のキーワードで検索してください。";
 
     els.ruleList.innerHTML = list
       .map((rule) => {
@@ -198,6 +243,7 @@
         const hasPhoto = rule.images && rule.images.length > 0;
         const hasFile = rule.files && rule.files.length > 0;
         return `<li class="rule-card">
+          ${favoriteButtonHtml(rule)}
           <button type="button" class="rule-card-btn" data-id="${rule.id}">
             <div class="rule-meta">
               <span class="rule-badge">${escapeHtml(rule.group)}</span>
@@ -228,6 +274,7 @@
         <span class="rule-badge">${escapeHtml(rule.group)}</span>
         <span class="rule-date">${escapeHtml(rule.date || "")}</span>
         ${viewCountBadge(rule)}
+        ${favoriteButtonHtml(rule)}
       </div>
       <h2 id="detail-title">${highlight(rule.title, terms)}</h2>
       <p class="rule-no">No.${rule.no} / ${escapeHtml(rule.category)}</p>
@@ -281,6 +328,15 @@
         copyBtn.textContent = "このルールへのリンクをコピー";
       }, 1800);
     });
+
+    const favBtn = els.detailBody.querySelector(".rule-star");
+    if (favBtn) {
+      favBtn.addEventListener("click", () => {
+        toggleFavorite(rule.id);
+        renderDetail(rule);
+        renderList();
+      });
+    }
   }
 
   function closeDetail() {
@@ -372,9 +428,20 @@
     });
 
     els.ruleList.addEventListener("click", (e) => {
+      const favBtn = e.target.closest("button[data-fav-id]");
+      if (favBtn) {
+        toggleFavorite(favBtn.dataset.favId);
+        renderList();
+        return;
+      }
       const btn = e.target.closest("button[data-id]");
       if (!btn) return;
       location.hash = btn.dataset.id;
+    });
+
+    els.favoritesOnlyCheckbox.addEventListener("change", (e) => {
+      state.favoritesOnly = e.target.checked;
+      renderList();
     });
 
     els.detailClose.addEventListener("click", closeDetail);
