@@ -51,15 +51,21 @@
   <section class="content">
     <div class="content-toolbar">
       <p id="result-count" class="result-count" role="status" aria-live="polite"></p>
-      <label class="sort-label">
-        並び替え
-        <select id="sort-select">
-          <option value="date-desc">新しい順</option>
-          <option value="date-asc">古い順</option>
-          <option value="no-asc">No.順</option>
-          <option value="views-desc">閲覧数順</option>
-        </select>
-      </label>
+      <div class="toolbar-controls">
+        <label class="favorites-toggle">
+          <input type="checkbox" id="favorites-only-checkbox">
+          ★ お気に入りのみ
+        </label>
+        <label class="sort-label">
+          並び替え
+          <select id="sort-select">
+            <option value="date-desc">新しい順</option>
+            <option value="date-asc">古い順</option>
+            <option value="no-asc">No.順</option>
+            <option value="views-desc">閲覧数順</option>
+          </select>
+        </label>
+      </div>
     </div>
 
     <ul id="rule-list" class="rule-list"></ul>
